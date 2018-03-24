@@ -2,12 +2,13 @@
 
 This is the prototype of job manager. Follow the below instructions to import the project.
 
-Download the project.
-Import as Maven project
-Run clean install
-Use the generated jar as dependency in your project.
-Use JobBuilder to create the Job.
-Add job to JobManager and call execute method.
+	1. Download the project.
+	2. Import as Maven project
+	3. Run clean install
+	4. Use the generated jar as dependency in your project.
+	5. Use JobBuilder to create the Job.
+	6. Add job to JobManager and call execute method.
+	
 Sample Code:
 
 // Creating Job from Job Builder

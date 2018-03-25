@@ -13,20 +13,20 @@ Sample Code:
 
 // Creating Job from Job Builder
 
-		Job readJob = JobBuilder.getInstance()
+		Job readJob = new JobBuilder()
 		.setJobName("ReadingJob")
 		.setJobPriority(Priority.HIGH)
 		.setJobTasks(getTaskList("I am Reading File")).build();
 		
-		Job writeJob = JobBuilder.getInstance()
+		Job writeJob = new JobBuilder()
 				.setJobName("WritingJob")
 				.setJobTasks(getTaskList("I am Writing File"))
 				.setJobPriority(Priority.LOW).build();
 		
-		Job deleteJob = JobBuilder.getInstance()
+		Job deleteJob = new JobBuilder()
 				.setJobName("DeletingJob")
 				.setJobPriority(Priority.MEDIUM)
-				.setJobTasks(getTaskList("I am Deleting File")).build();	
+				.setJobTasks(getTaskList("I am Deleting File")).build();
 		List<Job> jobs = new ArrayList<Job>();
 		jobs.add(readJob);		
 		jobs.add(writeJob);

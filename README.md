@@ -7,29 +7,31 @@ This is the prototype of job manager. Follow the below instructions to import th
 	3. Run clean install
 	4. Use the generated jar as dependency in your project.
 	5. Use JobBuilder to create the Job.
-	6. Add job to JobManager and call execute method.
+	6. Use JobLauncher to launch the jobs.
 	
 Sample Code:
 
 // Creating Job from Job Builder
 
-  Job readJob = JobBuilder.getInstance()
-	    .setJobName("ReadingJob")
-	    .setJobPriority(Priority.HIGH)
-	    .setJobTasks(getTaskList("I am Reading File")).build(); //Implement Task interface to create Task
-    
-  Job writeJob = JobBuilder.getInstance()
-			.setJobName("WritingJob")
-			.setJobTasks(getTaskList("I am Writing File"))
-			.setJobPriority(Priority.LOW).build();  
-    
-    //Adding Job to List
-    List<Job> jobs = new ArrayList<Job>();
-	    jobs.add(readJob);		
-    jobs.add(writeJob);
-    
-    //Adding Job in Jobmanage queue
-    jobManager.addJob(jobs);
-    
-    //Executing the Job
-    jobManager.executeJob();
+		Job readJob = JobBuilder.getInstance()
+		.setJobName("ReadingJob")
+		.setJobPriority(Priority.HIGH)
+		.setJobTasks(getTaskList("I am Reading File")).build();
+		
+		Job writeJob = JobBuilder.getInstance()
+				.setJobName("WritingJob")
+				.setJobTasks(getTaskList("I am Writing File"))
+				.setJobPriority(Priority.LOW).build();
+		
+		Job deleteJob = JobBuilder.getInstance()
+				.setJobName("DeletingJob")
+				.setJobPriority(Priority.MEDIUM)
+				.setJobTasks(getTaskList("I am Deleting File")).build();	
+		List<Job> jobs = new ArrayList<Job>();
+		jobs.add(readJob);		
+		jobs.add(writeJob);
+		jobs.add(deleteJob);
+		
+	//Getting the instance of JobLauncher and call the launchJobs method to launch the jobs	
+		JobLauncher launcher = JobLauncherImpl.getInstance();
+		launcher.launchJobs(jobs);

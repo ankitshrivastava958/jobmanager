@@ -5,15 +5,17 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Test;
 
 import com.jobmanager.prototype.job.Job;
 import com.jobmanager.prototype.job.JobBuilder;
+import com.jobmanager.prototype.job.JobSchedule;
 import com.jobmanager.prototype.job.JobStatus;
 import com.jobmanager.prototype.job.Priority;
 import com.jobmanager.prototype.job.Task;
-import com.jobmanager.prototype.manger.JobManager;
-import com.jobmanager.prototype.manger.JobManagerImpl;
+import com.jobmanager.prototype.launcher.JobLauncher;
+import com.jobmanager.prototype.launcher.JobLauncherImpl;
 
 
 /**
@@ -45,19 +47,14 @@ public class JobManagerTest {
 				.setJobName("DeletingJob")
 				.setJobPriority(Priority.MEDIUM)
 				.setJobTasks(getTaskList("I am Deleting File")).build();	
-		JobManager jobManager = JobManagerImpl.getJobManagerInstance();
 		List<Job> jobs = new ArrayList<Job>();
 		jobs.add(readJob);		
 		jobs.add(writeJob);
 		jobs.add(deleteJob);
 		
-		jobManager.addJob(jobs);
-		//After adding jobs in jobqueue the status of Job should be Queued
-		assertEquals(readJob.getStatus(),JobStatus.QUEUED);
-		assertEquals(writeJob.getStatus(),JobStatus.QUEUED);
-		assertEquals(deleteJob.getStatus(),JobStatus.QUEUED);
+		JobLauncher launcher = JobLauncherImpl.getInstance();
+		launcher.launchJobs(jobs);
 		
-		jobManager.executeJob();
 		//Once the execution completed without exception status should be Success
 		assertEquals(readJob.getStatus(),JobStatus.SUCCESS);
 		assertEquals(writeJob.getStatus(),JobStatus.SUCCESS);
@@ -87,26 +84,67 @@ public class JobManagerTest {
 				.setJobName("DeletingJob")
 				.setJobPriority(Priority.LOW)
 				.setJobTasks(getTaskList("I am Deleting File")).build();	
-		JobManager jobManager = JobManagerImpl.getJobManagerInstance();
+		
 		List<Job> jobs = new ArrayList<Job>();
 		jobs.add(readJob);		
 		jobs.add(writeJob);
 		jobs.add(deleteJob);	
 		
-		jobManager.addJob(jobs);
-		//After adding jobs in jobqueue the status of Job should be Queued
-		assertEquals(readJob.getStatus(),JobStatus.QUEUED);
-		assertEquals(writeJob.getStatus(),JobStatus.QUEUED);
-		assertEquals(deleteJob.getStatus(),JobStatus.QUEUED);
+		JobLauncher launcher = JobLauncherImpl.getInstance();
+		launcher.launchJobs(jobs);
 		
-		jobManager.executeJob();
 		//Once the execution completed without exception status should be Success
 		assertEquals(readJob.getStatus(),JobStatus.SUCCESS);
 		assertEquals(writeJob.getStatus(),JobStatus.FAILED);
 		assertEquals(deleteJob.getStatus(),JobStatus.SUCCESS);
 
 	}
+	
+	
+	/**
+	 * This method test when job has no tasks defined then it shouldn't harm the other jobs
+	 * and system
+	 */
+	@Test
+	public void shouldExecuteTheJobWithoutAnyTask(){
+		
+		Job readJob = JobBuilder.getInstance()
+		.setJobName("ReadingJob")
+		.setJobPriority(Priority.HIGH)
+		.setJobTasks(getTaskList("I am Reading File")).build();
+		
+		Job writeJob = JobBuilder.getInstance()
+				.setJobName("WritingJob").build();
+		
+		List<Job> jobs = new ArrayList<Job>();
+		jobs.add(readJob);		
+		jobs.add(writeJob);
+		
+		JobLauncher launcher = JobLauncherImpl.getInstance();
+		launcher.launchJobs(jobs);
+		
+		//Once the execution completed without exception status should be Success
+		assertEquals(readJob.getStatus(),JobStatus.SUCCESS);
+		assertEquals(writeJob.getStatus(),JobStatus.SUCCESS);
+		
+	}
 
+	/**
+	 * This method tests the scenario where empty list of job passed to JobLauncher
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void shouldThrowIllegalArgumentExceptionWhenJobLauncherCalledWithoutJob(){
+		
+		List<Job> jobs = new ArrayList<Job>();
+		JobLauncher launcher = JobLauncherImpl.getInstance();
+		launcher.launchJobs(jobs);		
+		
+	}
+
+	
+	
+	
 	/**
 	 * This method creates the List of Task which will be executed by Job.
 	 * 

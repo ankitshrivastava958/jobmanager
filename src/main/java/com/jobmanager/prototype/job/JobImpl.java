@@ -1,5 +1,7 @@
 package com.jobmanager.prototype.job;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +22,8 @@ class JobImpl extends AbstractJob {
 		setJobName(jobBuilder.getName());
 		setPriority(jobBuilder.getPriority());
 		setSchedule(jobBuilder.getSchedule());
-		setTasks(jobBuilder.getTasks());
+		setTasks(jobBuilder.getTasks()!=null?
+				jobBuilder.getTasks():new ArrayList<Task>());
 	}
 	
 }

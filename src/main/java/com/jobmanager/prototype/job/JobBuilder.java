@@ -8,7 +8,7 @@ import java.util.List;
  * new job developer doesn't need to implement the AbstractJob class, they 
  * Just need to create instance of job builder and set the required properties
  * and call build method to get the instance of Job.
- * This class is singleton so only instance will be created of it.
+ * 
  * 
  *
  */
@@ -22,18 +22,7 @@ public class JobBuilder {
 	
 	private String name;
 	
-	private JobBuilder(){}
 	
-	private static JobBuilder jobBuilder = new JobBuilder();
-	
-	/**
-	 * Returns the instance of JobBuilder
-	 * 
-	 * @return JobBuilder
-	 */
-	public static JobBuilder getInstance(){
-		return jobBuilder;
-	}
 	
 	/**
 	 * Set the name of Job

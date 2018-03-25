@@ -33,17 +33,17 @@ public class JobManagerTest {
 	@Test
 	public void shouldExecuteJobSuccessfullyAsPerPriority() {
 		
-		Job readJob = JobBuilder.getInstance()
+		Job readJob = new JobBuilder()
 		.setJobName("ReadingJob")
 		.setJobPriority(Priority.HIGH)
 		.setJobTasks(getTaskList("I am Reading File")).build();
 		
-		Job writeJob = JobBuilder.getInstance()
+		Job writeJob = new JobBuilder()
 				.setJobName("WritingJob")
 				.setJobTasks(getTaskList("I am Writing File"))
 				.setJobPriority(Priority.LOW).build();
 		
-		Job deleteJob = JobBuilder.getInstance()
+		Job deleteJob = new JobBuilder()
 				.setJobName("DeletingJob")
 				.setJobPriority(Priority.MEDIUM)
 				.setJobTasks(getTaskList("I am Deleting File")).build();	
@@ -70,17 +70,17 @@ public class JobManagerTest {
 	@Test
 	public void shouldExecuteOtherJobSuccessfullyWhenAnyJobFailed() {
 		
-		Job readJob = JobBuilder.getInstance()
+		Job readJob = new JobBuilder()
 		.setJobName("ReadingJob")
 		.setJobPriority(Priority.HIGH)
 		.setJobTasks(getTaskList("I am Reading File")).build();
 		
-		Job writeJob = JobBuilder.getInstance()
+		Job writeJob = new JobBuilder()
 				.setJobName("WritingJob")
 				.setJobTasks(getTaskListThrowsException())
 				.setJobPriority(Priority.MEDIUM).build();
 				
-		Job deleteJob = JobBuilder.getInstance()
+		Job deleteJob = new JobBuilder()
 				.setJobName("DeletingJob")
 				.setJobPriority(Priority.LOW)
 				.setJobTasks(getTaskList("I am Deleting File")).build();	
@@ -108,12 +108,12 @@ public class JobManagerTest {
 	@Test
 	public void shouldExecuteTheJobWithoutAnyTask(){
 		
-		Job readJob = JobBuilder.getInstance()
+		Job readJob = new JobBuilder()
 		.setJobName("ReadingJob")
 		.setJobPriority(Priority.HIGH)
 		.setJobTasks(getTaskList("I am Reading File")).build();
 		
-		Job writeJob = JobBuilder.getInstance()
+		Job writeJob = new JobBuilder()
 				.setJobName("WritingJob").build();
 		
 		List<Job> jobs = new ArrayList<Job>();

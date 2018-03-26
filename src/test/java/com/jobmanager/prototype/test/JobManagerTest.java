@@ -5,12 +5,10 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Test;
 
 import com.jobmanager.prototype.job.Job;
 import com.jobmanager.prototype.job.JobBuilder;
-import com.jobmanager.prototype.job.JobSchedule;
 import com.jobmanager.prototype.job.JobStatus;
 import com.jobmanager.prototype.job.Priority;
 import com.jobmanager.prototype.job.Task;
